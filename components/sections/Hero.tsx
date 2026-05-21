@@ -28,7 +28,7 @@ export function Hero({ initialCount }: HeroProps) {
   }
 
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center text-center px-4 pt-24 pb-16">
+    <section className="min-h-screen flex flex-col items-center justify-center text-center px-4 pt-32 pb-16">
       <div className="mb-8 inline-flex items-center gap-3 rounded-full border-2 border-[#E8540A]/50 bg-[#E8540A]/10 px-6 py-2.5 shadow-lg shadow-[#E8540A]/20">
         <span className="relative flex h-3 w-3">
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#E8540A] opacity-75" />

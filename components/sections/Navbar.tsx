@@ -9,10 +9,17 @@ export function Navbar() {
   }
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 bg-[#0D0D0D]/90 backdrop-blur-sm border-b border-white/5">
-      <div className="flex items-center gap-3">
-        <Image src="/logo.png" alt="CJP Talents" width={40} height={40} className="rounded-full" />
-        <span className="font-black text-lg text-[#F5E8D5] tracking-tight">
+    <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-3 bg-[#0D0D0D]/90 backdrop-blur-sm border-b border-white/5">
+      <div className="flex items-center gap-4">
+        <Image
+          src="/logo.png"
+          alt="CJP Talents"
+          width={64}
+          height={64}
+          priority
+          className="rounded-full"
+        />
+        <span className="font-black text-2xl md:text-3xl text-[#F5E8D5] tracking-tight leading-none">
           CJP <span className="text-[#E8540A]">Talents</span>
         </span>
       </div>
