@@ -19,7 +19,7 @@ export function Hero({ initialCount }: HeroProps) {
       } catch {
         // silent — keep showing last known count
       }
-    }, 30_000)
+    }, 15_000)
     return () => clearInterval(interval)
   }, [])
 
@@ -29,7 +29,17 @@ export function Hero({ initialCount }: HeroProps) {
 
   return (
     <section className="min-h-screen flex flex-col items-center justify-center text-center px-4 pt-24 pb-16">
-      <p className="text-[#E8540A] text-xs font-bold uppercase tracking-[0.25em] mb-6">
+      <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#E8540A]/40 bg-[#E8540A]/10 px-4 py-1.5">
+        <span className="relative flex h-2 w-2">
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#E8540A] opacity-75" />
+          <span className="relative inline-flex h-2 w-2 rounded-full bg-[#E8540A]" />
+        </span>
+        <span className="text-[#E8540A] text-xs font-black uppercase tracking-[0.2em]">
+          Coming Soon
+        </span>
+      </div>
+
+      <p className="text-[#F5E8D5]/50 text-xs font-bold uppercase tracking-[0.25em] mb-6">
         Cockroach Janta Party Talents
       </p>
 
@@ -39,7 +49,7 @@ export function Hero({ initialCount }: HeroProps) {
       </h1>
 
       <p className="text-lg md:text-xl text-[#F5E8D5]/60 max-w-2xl mx-auto mb-10 leading-relaxed">
-        India&apos;s exclusive talent platform for job seekers and co-founders.
+        India&apos;s exclusive Social media talent platform for job seekers and co-founders.
         Apply once. Get verified. Find your opportunity.
       </p>
 

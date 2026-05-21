@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Check, Copy } from 'lucide-react'
 
@@ -11,6 +11,28 @@ interface ThankYouProps {
 
 export function ThankYou({ displayNumber, referralCode }: ThankYouProps) {
   const [copied, setCopied] = useState(false)
+  const [liveCount, setLiveCount] = useState<number | null>(null)
+
+  useEffect(() => {
+    let cancelled = false
+
+    async function refresh() {
+      try {
+        const res = await fetch('/api/member-count')
+        const data = await res.json()
+        if (!cancelled) setLiveCount(data.count)
+      } catch {
+        // silent
+      }
+    }
+
+    refresh()
+    const interval = setInterval(refresh, 15_000)
+    return () => {
+      cancelled = true
+      clearInterval(interval)
+    }
+  }, [])
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://cjptalents.in'
   const referralLink = `${appUrl}/join?ref=${referralCode}`
@@ -43,10 +65,21 @@ export function ThankYou({ displayNumber, referralCode }: ThankYouProps) {
           in the movement.
         </p>
 
-        <div className="inline-flex items-center gap-2 mt-2 mb-8 bg-[#0D0D0D] border border-white/10 rounded-full px-4 py-2">
+        <div className="inline-flex items-center gap-2 mt-2 mb-4 bg-[#0D0D0D] border border-white/10 rounded-full px-4 py-2">
           <span className="w-2 h-2 rounded-full bg-yellow-400 animate-pulse" />
           <span className="text-[#F5E8D5]/50 text-sm">Under Review · up to 7 days</span>
         </div>
+
+        {liveCount !== null && (
+          <div className="mb-8 flex flex-col items-center gap-1">
+            <p className="text-2xl font-black text-[#E8540A]">
+              {liveCount.toLocaleString('en-IN')}+
+            </p>
+            <p className="text-[#F5E8D5]/40 text-xs">
+              talents have joined the movement
+            </p>
+          </div>
+        )}
 
         <div className="bg-[#0D0D0D] border border-white/10 rounded-2xl p-5 mb-6 text-left">
           <p className="text-[#F5E8D5]/40 text-xs mb-2 uppercase tracking-wider">Your invite link</p>
