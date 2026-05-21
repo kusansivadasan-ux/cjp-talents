@@ -29,13 +29,13 @@ export function Hero({ initialCount }: HeroProps) {
 
   return (
     <section className="min-h-screen flex flex-col items-center justify-center text-center px-4 pt-24 pb-16">
-      <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#E8540A]/40 bg-[#E8540A]/10 px-4 py-1.5">
-        <span className="relative flex h-2 w-2">
+      <div className="mb-8 inline-flex items-center gap-3 rounded-full border-2 border-[#E8540A]/50 bg-[#E8540A]/10 px-6 py-2.5 shadow-lg shadow-[#E8540A]/20">
+        <span className="relative flex h-3 w-3">
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#E8540A] opacity-75" />
-          <span className="relative inline-flex h-2 w-2 rounded-full bg-[#E8540A]" />
+          <span className="relative inline-flex h-3 w-3 rounded-full bg-[#E8540A]" />
         </span>
-        <span className="text-[#E8540A] text-xs font-black uppercase tracking-[0.2em]">
-          Coming Soon
+        <span className="text-[#E8540A] text-base md:text-lg font-black uppercase tracking-[0.2em]">
+          Launching Soon
         </span>
       </div>
 
@@ -48,10 +48,20 @@ export function Hero({ initialCount }: HeroProps) {
         <span className="text-[#E8540A]">We built a movement.</span>
       </h1>
 
-      <p className="text-lg md:text-xl text-[#F5E8D5]/60 max-w-2xl mx-auto mb-10 leading-relaxed">
+      <p className="text-lg md:text-xl text-[#F5E8D5]/60 max-w-2xl mx-auto mb-6 leading-relaxed">
         India&apos;s exclusive Social media talent platform for job seekers and co-founders.
         Apply once. Get verified. Find your opportunity.
       </p>
+
+      <div className="mb-10 flex flex-wrap items-center justify-center gap-3 rounded-2xl border border-white/10 bg-gradient-to-r from-[#E8540A]/10 via-white/5 to-[#1A6B35]/10 px-6 py-4 max-w-2xl">
+        <span className="text-2xl md:text-3xl" role="img" aria-label="Indian flag">🇮🇳</span>
+        <p className="text-base md:text-xl font-black text-[#F5E8D5] leading-tight">
+          Let&apos;s Make it{' '}
+          <span className="text-[#E8540A]">India&apos;s Largest</span>{' '}
+          Social Media Platform
+        </p>
+        <span className="text-2xl md:text-3xl" role="img" aria-label="Indian flag">🇮🇳</span>
+      </div>
 
       <Button
         onClick={scrollToSignup}
