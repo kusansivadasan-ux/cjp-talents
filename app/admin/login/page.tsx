@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { createBrowserClient } from '@/lib/supabase/client'
 
@@ -13,13 +13,22 @@ const ERROR_MESSAGES: Record<string, string> = {
 }
 
 export default function AdminLoginPage() {
+  return (
+    <Suspense fallback={<LoginShell error={null} />}>
+      <AdminLoginForm />
+    </Suspense>
+  )
+}
+
+function AdminLoginForm() {
   const searchParams = useSearchParams()
   const errorParam = searchParams.get('error')
+  const initialError = errorParam ? ERROR_MESSAGES[errorParam] ?? 'Something went wrong.' : null
 
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const [sent, setSent] = useState(false)
-  const [error, setError] = useState<string | null>(errorParam ? ERROR_MESSAGES[errorParam] ?? 'Something went wrong.' : null)
+  const [error, setError] = useState<string | null>(initialError)
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -38,8 +47,6 @@ export default function AdminLoginPage() {
     setLoading(false)
 
     if (otpError) {
-      // Supabase returns an error if the user doesn't exist when shouldCreateUser=false
-      // but for security we show a generic message
       console.error('[login] OTP error:', otpError)
       setError('Failed to send magic link. Please check your email and try again.')
       return
@@ -48,6 +55,106 @@ export default function AdminLoginPage() {
     setSent(true)
   }
 
+  if (sent) {
+    return (
+      <LoginShell error={error}>
+        <div
+          style={{
+            padding: '24px',
+            backgroundColor: 'rgba(26, 107, 53, 0.15)',
+            border: '1px solid rgba(26, 107, 53, 0.4)',
+            borderRadius: '8px',
+            textAlign: 'center',
+          }}
+        >
+          <p style={{ margin: '0 0 8px', fontSize: '24px' }}>📬</p>
+          <p
+            style={{
+              margin: '0 0 8px',
+              fontSize: '16px',
+              fontWeight: 600,
+              color: '#F5E8D5',
+            }}
+          >
+            Check your inbox
+          </p>
+          <p style={{ margin: 0, fontSize: '14px', color: '#B0A090' }}>
+            We sent a magic link to <strong style={{ color: '#F5E8D5' }}>{email}</strong>.
+            Click it to log in.
+          </p>
+        </div>
+      </LoginShell>
+    )
+  }
+
+  return (
+    <LoginShell error={error}>
+      <form onSubmit={handleSubmit}>
+        <div style={{ marginBottom: '20px' }}>
+          <label
+            htmlFor="email"
+            style={{
+              display: 'block',
+              marginBottom: '6px',
+              fontSize: '13px',
+              fontWeight: 500,
+              color: '#B0A090',
+            }}
+          >
+            Email address
+          </label>
+          <input
+            id="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="admin@example.com"
+            required
+            style={{
+              width: '100%',
+              height: '40px',
+              padding: '0 12px',
+              backgroundColor: '#1A1A1A',
+              border: '1px solid #2A2A2A',
+              borderRadius: '8px',
+              fontSize: '14px',
+              color: '#F5E8D5',
+              outline: 'none',
+              boxSizing: 'border-box',
+            }}
+          />
+        </div>
+
+        <button
+          type="submit"
+          disabled={loading || !email}
+          style={{
+            width: '100%',
+            height: '40px',
+            backgroundColor: loading || !email ? '#6B3A20' : '#E8540A',
+            color: '#0D0D0D',
+            border: 'none',
+            borderRadius: '8px',
+            fontSize: '14px',
+            fontWeight: 600,
+            cursor: loading || !email ? 'not-allowed' : 'pointer',
+            transition: 'background-color 0.15s',
+          }}
+        >
+          {loading ? 'Sending...' : 'Send Magic Link'}
+        </button>
+      </form>
+    </LoginShell>
+  )
+}
+
+function LoginShell({
+  error,
+  children,
+}: {
+  error: string | null
+  children?: React.ReactNode
+}) {
   return (
     <div
       style={{
@@ -69,7 +176,6 @@ export default function AdminLoginPage() {
           padding: '40px 32px',
         }}
       >
-        {/* Logo / Brand */}
         <div style={{ marginBottom: '32px' }}>
           <p
             style={{
@@ -97,7 +203,6 @@ export default function AdminLoginPage() {
           </h1>
         </div>
 
-        {/* Error banner */}
         {error && (
           <div
             style={{
@@ -114,90 +219,7 @@ export default function AdminLoginPage() {
           </div>
         )}
 
-        {/* Sent confirmation */}
-        {sent ? (
-          <div
-            style={{
-              padding: '24px',
-              backgroundColor: 'rgba(26, 107, 53, 0.15)',
-              border: '1px solid rgba(26, 107, 53, 0.4)',
-              borderRadius: '8px',
-              textAlign: 'center',
-            }}
-          >
-            <p style={{ margin: '0 0 8px', fontSize: '24px' }}>📬</p>
-            <p
-              style={{
-                margin: '0 0 8px',
-                fontSize: '16px',
-                fontWeight: 600,
-                color: '#F5E8D5',
-              }}
-            >
-              Check your inbox
-            </p>
-            <p style={{ margin: 0, fontSize: '14px', color: '#B0A090' }}>
-              We sent a magic link to <strong style={{ color: '#F5E8D5' }}>{email}</strong>.
-              Click it to log in.
-            </p>
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit}>
-            <div style={{ marginBottom: '20px' }}>
-              <label
-                htmlFor="email"
-                style={{
-                  display: 'block',
-                  marginBottom: '6px',
-                  fontSize: '13px',
-                  fontWeight: 500,
-                  color: '#B0A090',
-                }}
-              >
-                Email address
-              </label>
-              <input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@example.com"
-                required
-                style={{
-                  width: '100%',
-                  height: '40px',
-                  padding: '0 12px',
-                  backgroundColor: '#1A1A1A',
-                  border: '1px solid #2A2A2A',
-                  borderRadius: '8px',
-                  fontSize: '14px',
-                  color: '#F5E8D5',
-                  outline: 'none',
-                  boxSizing: 'border-box',
-                }}
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading || !email}
-              style={{
-                width: '100%',
-                height: '40px',
-                backgroundColor: loading || !email ? '#6B3A20' : '#E8540A',
-                color: '#0D0D0D',
-                border: 'none',
-                borderRadius: '8px',
-                fontSize: '14px',
-                fontWeight: 600,
-                cursor: loading || !email ? 'not-allowed' : 'pointer',
-                transition: 'background-color 0.15s',
-              }}
-            >
-              {loading ? 'Sending...' : 'Send Magic Link'}
-            </button>
-          </form>
-        )}
+        {children}
       </div>
     </div>
   )
