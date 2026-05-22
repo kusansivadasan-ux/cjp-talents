@@ -6,7 +6,7 @@ export function Footer() {
           © 2026 CJP Talents · Cockroach Janta Party Talents
         </p>
         <div className="flex items-center gap-6 text-[#F5E8D5]/30 text-sm">
-          <a href="mailto:hello@cjptalents.in" className="hover:text-[#E8540A] transition-colors">
+          <a href="mailto:hello@cjptalents.com" className="hover:text-[#E8540A] transition-colors">
             Contact
           </a>
           <span>Privacy Policy</span>

@@ -1,7 +1,7 @@
 import type { WaitlistEntry } from '@/lib/types'
 import { getResend, getFromAddress } from '@/lib/email/resend'
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://cjptalents.in'
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://cjptalents.com'
 
 // ─── Welcome Email ────────────────────────────────────────────────────────────
 

@@ -34,7 +34,7 @@ export function ThankYou({ displayNumber, referralCode }: ThankYouProps) {
     }
   }, [])
 
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://cjptalents.in'
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://cjptalents.com'
   const referralLink = `${appUrl}/join?ref=${referralCode}`
 
   const shareText = `I just applied to CJP Talents — India's exclusive platform for talent & co-founders. Join me in the movement! 🪳✊`
