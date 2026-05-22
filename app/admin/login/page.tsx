@@ -40,7 +40,10 @@ function AdminLoginForm() {
       email,
       options: {
         emailRedirectTo: `${APP_URL}/admin/callback`,
-        shouldCreateUser: false,
+        // First-time admins need a user to be created so the magic link can be issued.
+        // The admin allowlist check happens server-side in /admin/callback — only
+        // emails in ADMIN_EMAILS env get an actual admin session.
+        shouldCreateUser: true,
       },
     })
 
@@ -48,7 +51,7 @@ function AdminLoginForm() {
 
     if (otpError) {
       console.error('[login] OTP error:', otpError)
-      setError('Failed to send magic link. Please check your email and try again.')
+      setError(otpError.message || 'Failed to send magic link. Please try again.')
       return
     }
 
