@@ -6,7 +6,7 @@ const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://cjptalents.com'
 // ─── Welcome Email ────────────────────────────────────────────────────────────
 
 function welcomeEmailTemplate(entry: WaitlistEntry): { subject: string; html: string; text: string } {
-  const inviteLink = `${APP_URL}/join?ref=${entry.referral_code}&inv=1`
+  const inviteLink = `${APP_URL}/?ref=${entry.referral_code}&inv=1#signup`
 
   const subject = "🪳 You're in! Welcome to CJP Talents"
 

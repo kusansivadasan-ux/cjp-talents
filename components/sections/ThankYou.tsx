@@ -35,7 +35,7 @@ export function ThankYou({ displayNumber, referralCode }: ThankYouProps) {
   }, [])
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://cjptalents.com'
-  const referralLink = `${appUrl}/join?ref=${referralCode}`
+  const referralLink = `${appUrl}/?ref=${referralCode}#signup`
 
   const shareText = `They called us cockroaches. But even cockroaches have dreams. 🪳✊
 
