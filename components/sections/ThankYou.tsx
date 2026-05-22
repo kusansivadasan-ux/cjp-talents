@@ -37,13 +37,17 @@ export function ThankYou({ displayNumber, referralCode }: ThankYouProps) {
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://cjptalents.com'
   const referralLink = `${appUrl}/join?ref=${referralCode}`
 
-  const shareText = `I just applied to CJP Talents — India's exclusive platform for talent & co-founders. Join me in the movement! 🪳✊`
+  const shareText = `They called us cockroaches. But even cockroaches have dreams. 🪳✊
+
+CJP Talents is India's own social platform — built for the talent the system overlooked. Come find your people. Come build your life.
+
+🇮🇳 Join the movement:`
 
   const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(`${shareText}\n${referralLink}`)}`
   const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(referralLink)}`
 
-  async function copyLink() {
-    await navigator.clipboard.writeText(referralLink)
+  async function copyMessage() {
+    await navigator.clipboard.writeText(`${shareText}\n${referralLink}`)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }
@@ -82,18 +86,21 @@ export function ThankYou({ displayNumber, referralCode }: ThankYouProps) {
         )}
 
         <div className="bg-[#0D0D0D] border border-white/10 rounded-2xl p-5 mb-6 text-left">
-          <p className="text-[#F5E8D5]/40 text-xs mb-2 uppercase tracking-wider">Your invite link</p>
+          <p className="text-[#F5E8D5]/40 text-xs mb-3 uppercase tracking-wider">Your share message</p>
+          <p className="text-[#F5E8D5]/90 text-sm leading-relaxed mb-4 whitespace-pre-line">
+            {shareText}
+          </p>
           <p className="text-[#E8540A] text-sm font-mono break-all">{referralLink}</p>
         </div>
 
         <div className="grid grid-cols-2 gap-3 mb-3">
           <Button
-            onClick={copyLink}
+            onClick={copyMessage}
             variant="outline"
             className="border-white/10 text-[#F5E8D5] hover:bg-white/5 gap-2"
           >
             {copied ? <Check size={16} className="text-green-400" /> : <Copy size={16} />}
-            {copied ? 'Copied!' : 'Copy Link'}
+            {copied ? 'Copied!' : 'Copy Message'}
           </Button>
           <a
             href={whatsappUrl}
@@ -116,7 +123,7 @@ export function ThankYou({ displayNumber, referralCode }: ThankYouProps) {
           </a>
           <button
             type="button"
-            onClick={() => { window.prompt('Copy this link to share on Instagram:', referralLink) }}
+            onClick={() => { window.prompt('Copy this message to share on Instagram:', `${shareText}\n${referralLink}`) }}
             className="flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 to-pink-500 hover:opacity-90 text-white font-semibold text-sm rounded-md px-4 py-2 transition-opacity"
           >
             Instagram
